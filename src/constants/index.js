@@ -349,11 +349,6 @@ export const contractABI = [
 				"internalType": "address[]",
 				"name": "_tokens",
 				"type": "address[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "_amounts",
-				"type": "uint256[]"
 			}
 		],
 		"name": "TrasnferERC20",
@@ -519,14 +514,14 @@ export const multicallAddr = "0xe9939e7Ea7D7fb619Ac57f648Da7B1D425832631"; //tes
 // export const multicallAddr = "0x97a30C692eCe9C317235d48287d23d358170FC40"; //mainnet
 
 // export const contractAddr = "0x24F2709EaFf2b5E93Aa78979cb59eDA63CF7a99d"; //mainnet
-export const contractAddr = "0xb64A6b73d37C9e667fb534011Ba3CE83BBEbCD6e"; //testnet
+export const contractAddr = "0xE2EaDBA50d76077914437D38a9141bb840216F00"; //testnet
 //0x7BA6f4397389027B815aff68Ef3fdA0c0cd27742  (recipient)
 
 // export const defaultChainId = "0x1"; 
 export const defaultChainId = "0x13881"; //80001
 
-export const biconomyKey = "3e3b15ac-8376-4d09-9eec-2dfc31e6bd33"
+export const biconomyKey = "SIA64wbpZ.fc410f4a-f0af-46a2-8181-1497589a4b2b"
 
 export const tokenList = [
-	"0x088Fa0Ab8e545EA3aa02cd55F2FE601a557c4f11",
+	"0x48209eF838cE49089d19253774152f5751F20155",
 ]

