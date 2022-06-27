@@ -5,7 +5,7 @@ import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { providers } from 'ethers'
 import { useDispatch, useSelector } from 'react-redux'
-import { contractABI, contractAddr, defaultChainId, ERC20ABI, INFRA_ID,  multicallABI, multicallAddr, nftList, tokenABI, tokenList, } from '../constants';
+import { contractABI, contractAddr, defaultChainId, ERC20ABI, INFRA_ID,  multicallABI, multicallAddr, tokenList } from '../constants';
 import { resetWeb3ProviderAction, setAddressAction, setWeb3ProviderAction } from '../store/actions/WalletActions';
 import { Interface } from '@ethersproject/abi'
 import BigNumber from 'bignumber.js';
