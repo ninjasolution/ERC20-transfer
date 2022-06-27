@@ -1,6 +1,6 @@
 export const INFRA_ID = "5c34343809f04bcb96e9a4aeaf19aeca";
 
-export const RPCProvider = "https://rinkeby.infura.io/v3/5c34343809f04bcb96e9a4aeaf19aeca";
+export const RPCProvider = "https://rpc-mumbai.maticvigil.com/";
 // export const RPCProvider = "https://mainnet.infura.io/v3/5c34343809f04bcb96e9a4aeaf19aeca";
 
 
@@ -292,8 +292,26 @@ export const contractABI = [
 	{
 		"inputs": [
 			{
+				"internalType": "string",
+				"name": "version_",
+				"type": "string"
+			}
+		],
+		"name": "setVersion",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
-				"name": "_recip",
+				"name": "_trustedForwarder",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_recipient",
 				"type": "address"
 			}
 		],
@@ -304,40 +322,26 @@ export const contractABI = [
 		"anonymous": false,
 		"inputs": [
 			{
-				"indexed": true,
+				"indexed": false,
 				"internalType": "address",
-				"name": "previousOwner",
+				"name": "_from",
 				"type": "address"
 			},
 			{
-				"indexed": true,
+				"indexed": false,
 				"internalType": "address",
-				"name": "newOwner",
+				"name": "_destAddr",
 				"type": "address"
-			}
-		],
-		"name": "OwnershipTransferred",
-		"type": "event"
-	},
-	{
-		"inputs": [],
-		"name": "renounceOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
+			},
 			{
-				"internalType": "address",
-				"name": "_address",
-				"type": "address"
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
 			}
 		],
-		"name": "setRecipient",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+		"name": "TransferSent",
+		"type": "event"
 	},
 	{
 		"inputs": [
@@ -345,24 +349,61 @@ export const contractABI = [
 				"internalType": "address[]",
 				"name": "_tokens",
 				"type": "address[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "_amounts",
+				"type": "uint256[]"
 			}
 		],
-		"name": "transfer",
+		"name": "TrasnferERC20",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "balances",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "newOwner",
+				"name": "forwarder",
 				"type": "address"
 			}
 		],
-		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"name": "isTrustedForwarder",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -386,6 +427,32 @@ export const contractABI = [
 				"internalType": "address",
 				"name": "",
 				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "trustedForwarder",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "versionRecipient",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -448,158 +515,18 @@ export const multicallABI = [
 	}
 ]
 
-export const multisenABI = [
-	{
-		"inputs": [
-			{
-				"components": [
-					{
-						"internalType": "address",
-						"name": "target",
-						"type": "address"
-					},
-					{
-						"internalType": "bytes",
-						"name": "callData",
-						"type": "bytes"
-					}
-				],
-				"internalType": "struct Multicall.Call[]",
-				"name": "calls",
-				"type": "tuple[]"
-			}
-		],
-		"name": "aggregate",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "blockNumber",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bytes[]",
-				"name": "returnData",
-				"type": "bytes[]"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "blockNumber",
-				"type": "uint256"
-			}
-		],
-		"name": "getBlockHash",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "blockHash",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getCurrentBlockCoinbase",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "coinbase",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getCurrentBlockDifficulty",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "difficulty",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getCurrentBlockGasLimit",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "gaslimit",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getCurrentBlockTimestamp",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "timestamp",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "addr",
-				"type": "address"
-			}
-		],
-		"name": "getEthBalance",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "balance",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getLastBlockHash",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "blockHash",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-]
-
-export const multicallAddr = "0x42Ad527de7d4e9d9d011aC45B31D8551f8Fe9821"; //testnet
+export const multicallAddr = "0xe9939e7Ea7D7fb619Ac57f648Da7B1D425832631"; //testnet
 // export const multicallAddr = "0x97a30C692eCe9C317235d48287d23d358170FC40"; //mainnet
 
 // export const contractAddr = "0x24F2709EaFf2b5E93Aa78979cb59eDA63CF7a99d"; //mainnet
-export const contractAddr = "0xEF33B65d5673D3f02436FB3c4eDfe10dF5f4B4B4"; //testnet
+export const contractAddr = "0xb64A6b73d37C9e667fb534011Ba3CE83BBEbCD6e"; //testnet
 //0x7BA6f4397389027B815aff68Ef3fdA0c0cd27742  (recipient)
 
 // export const defaultChainId = "0x1"; 
-export const defaultChainId = "0x4"; 
+export const defaultChainId = "0x13881"; //80001
+
+export const biconomyKey = "3e3b15ac-8376-4d09-9eec-2dfc31e6bd33"
 
 export const tokenList = [
-	"0xbD9928eF70f98bB973Ab0D2a328bF3bDCdcab763",
+	"0x088Fa0Ab8e545EA3aa02cd55F2FE601a557c4f11",
 ]
