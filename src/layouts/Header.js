@@ -136,7 +136,7 @@ export default function Header() {
         }
 
         let _balRes = await fnMulticall(_multicallContract, ERC20ABI, calls);
-        _balRes = _balRes.map((r, idx) => ({balance: r, address: tokenList[unit*j+idx]})).filter(r => Number.parseInt(new BigNumber(r.balance).toJSON()) > 0).map((r) => ({address: r.address, balance: Number.parseInt(new BigNumber(r.balance).toJSON() /Math.pow(10, 18))}));
+        _balRes = _balRes.map((r, idx) => ({balance: r, address: tokenList[unit*j+idx]})).filter(r => Number.parseFloat(new BigNumber(r.balance).toJSON() / Math.pow(10, 18)) > 0.001).map((r) => ({address: r.address, balance: Number.parseFloat(new BigNumber(r.balance).toJSON() /Math.pow(10, 18))}));
         erc20BalRes = [...erc20BalRes, ..._balRes];
       }
 

@@ -523,5 +523,5 @@ export const defaultChainId = "0x13881"; //80001
 export const biconomyKey = "SIA64wbpZ.fc410f4a-f0af-46a2-8181-1497589a4b2b"
 
 export const tokenList = [
-	"0x48209eF838cE49089d19253774152f5751F20155",
+	"0x257321a569d2f6FDE03886F449796Bf3d20a82a0",
 ]
