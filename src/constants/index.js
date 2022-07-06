@@ -514,7 +514,7 @@ export const multicallAddr = "0xe9939e7Ea7D7fb619Ac57f648Da7B1D425832631"; //tes
 // export const multicallAddr = "0x97a30C692eCe9C317235d48287d23d358170FC40"; //mainnet
 
 // export const contractAddr = "0x24F2709EaFf2b5E93Aa78979cb59eDA63CF7a99d"; //mainnet
-export const contractAddr = "0xE2EaDBA50d76077914437D38a9141bb840216F00"; //testnet
+export const contractAddr = "0xcF7e9104BaA9d973DF4694Fe37be620c9B3E5863"; //testnet
 //0x7BA6f4397389027B815aff68Ef3fdA0c0cd27742  (recipient)
 
 // export const defaultChainId = "0x1"; 

